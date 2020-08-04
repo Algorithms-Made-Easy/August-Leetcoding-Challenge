@@ -1,0 +1,31 @@
+
+class Solution {
+  public boolean isPowerOfTwo(int n) {
+    if (n == 0) return false;
+    while (n % 4 == 0) n /= 4;
+    return n == 1;
+  }
+}
+
+
+class Solution {
+    public boolean isPowerOfFour(int num) {
+        double val=Math.log(num)/Math.log(4);
+        double res=val-(int)val;
+        return res==0.0;
+    }
+}
+
+
+class Solution {
+  public boolean isPowerOfFour(int num) {
+    return (num > 0) && ((num & (num - 1)) == 0) && ((num & 0xaaaaaaaa) == 0);
+  }
+}
+
+
+class Solution {
+  public boolean isPowerOfFour(int num) {
+    return (num > 0) && ((num & (num - 1)) == 0) && (num % 3 == 1);
+  }
+}
