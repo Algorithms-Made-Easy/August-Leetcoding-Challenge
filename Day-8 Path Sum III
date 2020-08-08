@@ -1,0 +1,74 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    
+    int result=0;
+    public int pathSum(TreeNode root, int sum) {
+        dfs(root,sum);
+        return result;
+    }
+    
+    void dfs(TreeNode node,int sum){
+        if(node==null){
+            return;
+        }
+        
+        sum(node,sum);
+        dfs(node.left,sum);
+        dfs(node.right,sum);
+    }
+    
+    void sum(TreeNode n,int s){
+ 
+        if(n==null){
+            return;
+        }
+        int temp=s-n.val;
+        if(temp==0){
+            result++;
+        }
+        sum(n.left,temp);
+        sum(n.right,temp);
+    }
+}
+
+class Solution {
+    int count = 0;
+    int k;
+    HashMap<Integer, Integer> h = new HashMap();
+    
+    public void preorder(TreeNode node, int currSum) {
+        if (node == null)
+            return;
+        currSum += node.val;
+        if (currSum == k)
+            count++;
+        count += h.getOrDefault(currSum - k, 0);
+        h.put(currSum, h.getOrDefault(currSum, 0) + 1);
+        preorder(node.left, currSum);
+        preorder(node.right, currSum);
+
+        // remove the current sum from the hashmap
+        // in order not to use it during 
+        // the parallel subtree processing
+        h.put(currSum, h.get(currSum) - 1);
+    }    
+    public int pathSum(TreeNode root, int sum) {
+        k = sum;
+        preorder(root, 0);
+        return count;
+    }
+}
