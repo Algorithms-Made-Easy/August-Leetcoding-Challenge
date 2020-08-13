@@ -1,0 +1,63 @@
+class CombinationIterator {
+
+    int p=0;
+    List<String> c=null;
+    public CombinationIterator(String characters, int combinationLength) {
+        c=new ArrayList<>();
+        helper(characters,0,combinationLength,new StringBuilder());
+    }
+    
+    public String next() {
+        return c.get(p++);
+    }
+    
+    public boolean hasNext() {
+        return p<c.size();
+    }
+    
+    void helper(String s,int pos,int combinationLength,StringBuilder sb){
+        if(sb.length()==combinationLength){
+            c.add(sb.toString());
+            return;
+        }
+        
+        for(int i=pos;i<s.length();i++){
+            sb.append(s.charAt(i));
+            helper(s,i+1,combinationLength,sb);
+            sb.deleteCharAt(sb.length()-1);
+        }
+    }
+}
+
+class CombinationIterator {
+    int bitmask, n, k;
+    String chars;
+
+    public CombinationIterator(String characters, int combinationLength) {
+        n = characters.length();
+        k = combinationLength;
+        chars = characters;
+
+        bitmask = (1 << n) - (1 << n - k);
+    }
+
+    public String next() {
+        StringBuilder curr = new StringBuilder();
+        for (int j = 0; j < n; j++) {
+            if ((bitmask & (1 << n - j - 1)) != 0) {
+                curr.append(chars.charAt(j));
+            }
+        }
+
+        bitmask--;
+        while (bitmask > 0 && Integer.bitCount(bitmask) != k) {
+            bitmask--;
+        }
+
+        return curr.toString();
+    }
+
+    public boolean hasNext() {
+        return bitmask > 0;
+    }
+}
