@@ -25,7 +25,7 @@ class Solution {
         if((lastDigit + k) <= 9) {
             dfs(currentNumber * 10 + lastDigit + k, digitsLeft-1);
         }
-        if(lastDigit - k >= 0)
+        if(lastDigit - k >= 0  && k != 0)
             dfs(currentNumber * 10 + lastDigit - k, digitsLeft-1);
     }
 }
