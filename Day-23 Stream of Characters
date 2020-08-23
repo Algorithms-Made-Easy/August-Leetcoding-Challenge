@@ -1,0 +1,51 @@
+class StreamChecker {
+    
+    class Trie{
+        Trie[] next=new Trie[26];
+        boolean end;
+    }
+    
+    Trie root;
+    List<Integer> query;
+    
+    public StreamChecker(String[] words) {
+        root=new Trie();
+        query=new ArrayList<>();
+        
+        for(String s:words){
+            char[] c=s.toCharArray();
+            Trie t=root;
+            for(int i=c.length-1;i>=0;i--){
+                if(t.next[c[i]-'a']==null){
+                    t.next[c[i]-'a']=new Trie();
+                }
+                t=t.next[c[i]-'a'];
+            }
+            t.end=true;
+        }
+    }
+    
+    public boolean query(char letter) {
+        query.add(letter-'a');
+        Trie t=root;        
+        int i=query.size()-1;
+        while(i>=0){
+            t=t.next[query.get(i)];
+            if(t!=null && t.end){
+                return true;
+            }
+            else if(t==null){
+                return false;
+            }
+            i--;
+        }
+        
+        return false;
+    }
+}
+
+/**
+ * Your StreamChecker object will be instantiated and called as such:
+ * StreamChecker obj = new StreamChecker(words);
+ * boolean param_1 = obj.query(letter);
+ */
