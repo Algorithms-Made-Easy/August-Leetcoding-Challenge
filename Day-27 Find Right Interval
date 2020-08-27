@@ -1,0 +1,56 @@
+class Solution {
+    public int[] findRightInterval(int[][] intervals) {
+        int[] res = new int[intervals.length];
+        for (int i = 0; i < intervals.length; i++) {
+            int min = Integer.MAX_VALUE;
+            int minindex = -1;
+            for (int j = 0; j < intervals.length; j++) {
+                if (intervals[j][0] >= intervals[i][1] && intervals[j][0] < min) {
+                    min = intervals[j][0];
+                    minindex = j;
+                }
+            }
+            res[i] = minindex;
+        }
+        return res;
+    }
+}
+
+class Solution {
+    public int[] findRightInterval(int[][] intervals) {
+        int[] result = new int[intervals.length];
+        TreeMap<Integer, Integer> intervalMap = new TreeMap<>();
+         for (int i = 0; i < intervals.length; ++i) {
+            intervalMap.put(intervals[i][0], i);    
+        }
+        
+        for (int i = 0; i < intervals.length; ++i) {
+            Map.Entry<Integer, Integer> entry = intervalMap.ceilingEntry(intervals[i][1]);
+            result[i] = (entry != null) ? entry.getValue() : -1;
+        }
+        return result;
+    }
+}
+
+
+public class Solution {
+
+  public int[] findRightInterval(int[][] intervals) {
+    int[][] endIntervals = Arrays.copyOf(intervals, intervals.length);
+    HashMap<int[], Integer> hash = new HashMap<>();
+    for (int i = 0; i < intervals.length; i++) {
+      hash.put(intervals[i], i);
+    }
+    Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+    Arrays.sort(endIntervals, (a, b) -> a[1] - b[1]);
+    int j = 0;
+    int[] res = new int[intervals.length];
+    for (int i = 0; i < endIntervals.length; i++) {
+      while (j < intervals.length && intervals[j][0] < endIntervals[i][1]) {
+        j++;
+      }
+      res[hash.get(endIntervals[i])] = j == intervals.length ? -1 : hash.get(intervals[j]);
+    }
+    return res;
+  }
+}
